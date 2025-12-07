@@ -3,68 +3,355 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moje Moderní Stránka</title>
-    <!-- Načtení Tailwind CSS z CDN -->
+    <title>AI Developer Portfolio | Tvé Jméno</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Nastavení vlastních tříd pro moderní vzhled (používáme font Inter) -->
+    <!-- Používáme font Inter pro moderní vzhled -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        :root {
+            /* Definice tyrkysové a tmavé barvy jako CSS proměnné */
+            --primary-color: #22d3ee; /* cyan-400 */
+            --secondary-color: #06b6d4; /* cyan-600 */
+            --background-color: #0f172a; /* slate-900 */
+            --card-color: #1e293b; /* slate-800 */
+        }
         body {
             font-family: 'Inter', sans-serif;
-            /* Extra tmavé pozadí (téměř černá) */
-            background-color: #0d1117; 
+            background-color: var(--background-color);
+            color: #f1f5f9; /* slate-100 */
+        }
+        .text-accent {
+            color: var(--primary-color);
+        }
+        .bg-card {
+            background-color: var(--card-color);
+        }
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--background-color);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            box-shadow: 0 4px 15px -5px var(--secondary-color);
+        }
+        /* Subtilní animace pro Hero sekci */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 1s ease-out forwards;
+        }
+        /* Stylování pro navigační linky */
+        .nav-link {
+            transition: color 0.2s, border-color 0.2s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
         }
     </style>
 </head>
-<!-- Nastavení základní barvy textu na světlou pro kontrast -->
-<body class="min-h-screen flex items-center justify-center p-4 sm:p-8 text-gray-200">
+<body>
 
-    <!-- Hlavní kontejner - tmavá karta -->
-    <div class="bg-gray-900 p-8 sm:p-12 rounded-2xl shadow-xl max-w-lg w-full transform transition duration-500 hover:shadow-2xl hover:scale-[1.01] border-t-4 border-red-500">
-        <!-- Změna pozadí karty na tmavě šedou (bg-gray-900) -->
-
-        <!-- Ikona (pro vizuální zájem) -->
-        <div class="flex justify-center mb-6">
-            <!-- Barva ikony -->
-            <svg class="w-12 h-12 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-            </svg>
+    <!-- Navigace - Tmavá, fixní nahoře -->
+    <header class="sticky top-0 z-50 bg-card/95 backdrop-blur-sm shadow-lg border-b border-slate-700/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <a href="#home" class="text-2xl font-extrabold tracking-tight">
+                <span class="text-accent">AI</span><span class="text-white">Dev</span>
+            </a>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#about" class="nav-link text-white">O mně</a>
+                <a href="#skills" class="nav-link text-white">Dovednosti</a>
+                <a href="#projects" class="nav-link text-white">Projekty</a>
+                <a href="#contact" class="nav-link text-white">Kontakt</a>
+            </nav>
+            <!-- Tlačítko pro mobilní menu (prozatím nefunkční) -->
+            <button class="md:hidden text-white hover:text-accent focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
         </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto">
         
-        <!-- Hlavní nadpis -->
-        <h1 class="text-3xl sm:text-4xl font-extrabold text-white mb-4 text-center leading-tight">
-            <!-- Barva nadpisu na bílou -->
-            Vítejte na mé extra složité <span class="text-red-500">HTML stránce</span>!
-        </h1>
+        <!-- Sekce 1: HERO - Představení -->
+        <section id="home" class="py-24 md:py-32 px-4 sm:px-6 lg:px-8 flex items-center justify-center min-h-screen-minus-header">
+            <div class="flex flex-col md:flex-row items-center gap-12 w-full max-w-5xl">
+                <!-- Textová část -->
+                <div class="md:w-3/5 text-center md:text-left animate-fade-in" style="animation-delay: 0.1s;">
+                    <p class="text-xl md:text-2xl text-accent font-medium mb-3">Vítej! Jsem</p>
+                    <h1 class="text-5xl sm:text-7xl font-extrabold leading-tight tracking-tighter mb-4">
+                        <span class="text-white block">Tvé Jméno</span>
+                        <span class="text-accent block">AI Vývojář</span>
+                    </h1>
+                    <p class="text-lg md:text-xl text-slate-400 mb-8 max-w-xl mx-auto md:mx-0">
+                        Převedení složitých dat na inteligentní řešení pomocí strojového učení, hlubokého učení a nejnovějších modelů.
+                    </p>
+                    <div class="space-x-4">
+                        <a href="#projects" class="btn-primary inline-block py-3 px-8 rounded-full font-semibold shadow-lg hover:shadow-cyan-400/50">
+                            Prohlédnout Projekty
+                        </a>
+                        <a href="#contact" class="inline-block py-3 px-8 rounded-full font-semibold border border-accent text-accent transition duration-300 hover:bg-cyan-400/10">
+                            Kontakt
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Avatar Placeholder/Vizualizace AI -->
+                <div class="md:w-2/5 flex justify-center animate-fade-in" style="animation-delay: 0.3s;">
+                    <!-- Placeholder pro cool vizualizaci AI nebo avatar -->
+                    <div class="w-64 h-64 sm:w-80 sm:h-80 bg-cyan-400/10 rounded-full flex items-center justify-center border-4 border-accent shadow-2xl shadow-cyan-400/20 relative">
+                        <!-- Jednoduchá vizualizace AI -->
+                        <div class="w-20 h-20 bg-accent rounded-full animate-pulse opacity-75"></div>
+                        <div class="absolute w-40 h-40 border-2 border-dashed border-cyan-500/50 rounded-full animate-spin-slow"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sekce 2: O MNĚ -->
+        <section id="about" class="py-20 md:py-28 px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-white mb-4">O mně a mé vizi</h2>
+                <p class="text-xl text-slate-400">Pohled do mého profesionálního příběhu.</p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto bg-card p-8 md:p-12 rounded-2xl shadow-2xl shadow-slate-950">
+                <p class="text-slate-300 text-lg leading-relaxed mb-6">
+                    Jsem zapálený AI vývojář se zaměřením na přirozené zpracování jazyka (NLP) a počítačové vidění (Computer Vision). Mým cílem je budovat škálovatelné a etické systémy, které reálně řeší komplexní problémy.
+                </p>
+                <p class="text-slate-300 text-lg leading-relaxed">
+                    Mám <span class="text-accent font-semibold">X let</span> zkušeností s implementací řešení od výzkumné fáze až po produkční nasazení. Neustále sleduji nejnovější trendy v oblasti transformerů, generativních modelů a MLOps, abych zajistil, že moje práce je na špičkové úrovni.
+                </p>
+                <div class="mt-8 flex justify-center">
+                    <a href="tvuj_cv.pdf" target="_blank" class="text-accent border border-accent py-2 px-6 rounded-full hover:bg-cyan-400/10 transition duration-300">
+                        Stáhnout CV (PDF)
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sekce 3: DOVEDNOSTI (Skills) -->
+        <section id="skills" class="py-20 md:py-28 px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-white mb-4">Klíčové Dovednosti</h2>
+                <p class="text-xl text-slate-400">Technologie a nástroje, se kterými pracuji.</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                <!-- Kartička dovednosti -->
+                <div class="bg-card p-6 rounded-xl text-center border border-cyan-400/20 transition duration-300 hover:border-cyan-400 hover:scale-[1.03] shadow-lg">
+                    <span class="text-4xl text-accent block mb-3">🐍</span>
+                    <h3 class="text-xl font-semibold text-white">Python</h3>
+                    <p class="text-sm text-slate-400">Flask, FastAPI, OOP</p>
+                </div>
+                
+                <div class="bg-card p-6 rounded-xl text-center border border-cyan-400/20 transition duration-300 hover:border-cyan-400 hover:scale-[1.03] shadow-lg">
+                    <span class="text-4xl text-accent block mb-3">🧠</span>
+                    <h3 class="text-xl font-semibold text-white">Deep Learning</h3>
+                    <p class="text-sm text-slate-400">PyTorch, TensorFlow, Keras</p>
+                </div>
+
+                <div class="bg-card p-6 rounded-xl text-center border border-cyan-400/20 transition duration-300 hover:border-cyan-400 hover:scale-[1.03] shadow-lg">
+                    <span class="text-4xl text-accent block mb-3">💬</span>
+                    <h3 class="text-xl font-semibold text-white">NLP / LLMs</h3>
+                    <p class="text-sm text-slate-400">Transformers, RAG, SpaCy</p>
+                </div>
+
+                <div class="bg-card p-6 rounded-xl text-center border border-cyan-400/20 transition duration-300 hover:border-cyan-400 hover:scale-[1.03] shadow-lg">
+                    <span class="text-4xl text-accent block mb-3">👁️</span>
+                    <h3 class="text-xl font-semibold text-white">Computer Vision</h3>
+                    <p class="text-sm text-slate-400">OpenCV, YOLO, Segmentation</p>
+                </div>
+
+                <div class="bg-card p-6 rounded-xl text-center border border-cyan-400/20 transition duration-300 hover:border-cyan-400 hover:scale-[1.03] shadow-lg">
+                    <span class="text-4xl text-accent block mb-3">☁️</span>
+                    <h3 class="text-xl font-semibold text-white">Cloud / MLOps</h3>
+                    <p class="text-sm text-slate-400">AWS SageMaker, Azure ML, Docker</p>
+                </div>
+
+                <div class="bg-card p-6 rounded-xl text-center border border-cyan-400/20 transition duration-300 hover:border-cyan-400 hover:scale-[1.03] shadow-lg">
+                    <span class="text-4xl text-accent block mb-3">📊</span>
+                    <h3 class="text-xl font-semibold text-white">Data Science</h3>
+                    <p class="text-sm text-slate-400">Pandas, Scikit-learn, Vizualizace</p>
+                </div>
+
+                <div class="bg-card p-6 rounded-xl text-center border border-cyan-400/20 transition duration-300 hover:border-cyan-400 hover:scale-[1.03] shadow-lg">
+                    <span class="text-4xl text-accent block mb-3">🛠️</span>
+                    <h3 class="text-xl font-semibold text-white">Nástroje</h3>
+                    <p class="text-sm text-slate-400">Git, Kubernetes, VS Code</p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Sekce 4: PROJEKTY -->
+        <section id="projects" class="py-20 md:py-28 px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-white mb-4">Moje Nejlepší Projekty</h2>
+                <p class="text-xl text-slate-400">Kde teorie potkává praxi.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+                
+                <!-- Projekt 1: Prediktivní model -->
+                <div class="bg-card rounded-2xl p-6 md:p-8 shadow-2xl border-t-4 border-accent">
+                    <h3 class="text-3xl font-bold text-white mb-3">Systém pro Predikci Zákaznické Odpovědi</h3>
+                    <p class="text-sm text-accent font-semibold mb-4">#NLP #Klasifikace #Produkce</p>
+                    <p class="text-slate-300 mb-6">
+                        Vyvinut a nasazen transformerový model pro klasifikaci sentimentu a predikci pravděpodobnosti konverze z textových zákaznických dotazů. Model běží v Docker kontejneru na AWS EKS.
+                    </p>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="text-xs font-medium bg-cyan-400/10 text-cyan-200 py-1 px-3 rounded-full">PyTorch</span>
+                        <span class="text-xs font-medium bg-cyan-400/10 text-cyan-200 py-1 px-3 rounded-full">HuggingFace</span>
+                        <span class="text-xs font-medium bg-cyan-400/10 text-cyan-200 py-1 px-3 rounded-full">MLOps</span>
+                    </div>
+                    <div class="mt-6 flex space-x-4">
+                        <a href="#" class="text-accent hover:underline font-medium">Kód (GitHub)</a>
+                        <a href="#" class="text-accent hover:underline font-medium">Demo</a>
+                    </div>
+                </div>
+
+                <!-- Projekt 2: Počítačové vidění -->
+                <div class="bg-card rounded-2xl p-6 md:p-8 shadow-2xl border-t-4 border-accent">
+                    <h3 class="text-3xl font-bold text-white mb-3">Detekce Defektů na Výrobní Lince</h3>
+                    <p class="text-sm text-accent font-semibold mb-4">#ComputerVision #EdgeAI #YOLOv8</p>
+                    <p class="text-slate-300 mb-6">
+                        Trénink a optimalizace YOLO modelu pro detekci a lokalizaci drobných defektů na obrázcích z výrobního procesu v reálném čase. Nasazeno na lokální Edge zařízení pro nízkou latenci.
+                    </p>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="text-xs font-medium bg-cyan-400/10 text-cyan-200 py-1 px-3 rounded-full">TensorFlow Lite</span>
+                        <span class="text-xs font-medium bg-cyan-400/10 text-cyan-200 py-1 px-3 rounded-full">OpenCV</span>
+                        <span class="text-xs font-medium bg-cyan-400/10 text-cyan-200 py-1 px-3 rounded-full">Jupyter</span>
+                    </div>
+                    <div class="mt-6 flex space-x-4">
+                        <a href="#" class="text-accent hover:underline font-medium">Kód (GitHub)</a>
+                        <a href="#" class="text-accent hover:underline font-medium">Videa</a>
+                    </div>
+                </div>
+
+                <!-- Projekt 3: Generativní AI -->
+                <div class="bg-card rounded-2xl p-6 md:p-8 shadow-2xl border-t-4 border-accent">
+                    <h3 class="text-3xl font-bold text-white mb-3">RAG Systém pro Interní Dokumentaci</h3>
+                    <p class="text-sm text-accent font-semibold mb-4">#GenerativeAI #RAG #Vektory</p>
+                    <p class="text-slate-300 mb-6">
+                        Vytvoření Retrieval-Augmented Generation (RAG) aplikace pro zodpovídání dotazů z rozsáhlé korporátní dokumentace. Používá Vector Database (např. Pinecone/Weaviate) a LangChain.
+                    </p>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="text-xs font-medium bg-cyan-400/10 text-cyan-200 py-1 px-3 rounded-full">LangChain</span>
+                        <span class="text-xs font-medium bg-cyan-400/10 text-cyan-200 py-1 px-3 rounded-full">Pinecone</span>
+                        <span class="text-xs font-medium bg-cyan-400/10 text-cyan-200 py-1 px-3 rounded-full">LLama/OpenAI</span>
+                    </div>
+                    <div class="mt-6 flex space-x-4">
+                        <a href="#" class="text-accent hover:underline font-medium">Kód (GitHub)</a>
+                        <a href="#" class="text-accent hover:underline font-medium">Dokumentace</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Sekce 5: KONTAKT -->
+        <section id="contact" class="py-20 md:py-28 px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-white mb-4">Pojďme Budovat AI Spolu</h2>
+                <p class="text-xl text-slate-400">Jsem otevřen novým výzvám a spolupráci.</p>
+            </div>
+
+            <div class="max-w-xl mx-auto bg-card p-8 rounded-2xl shadow-2xl border border-cyan-400/30">
+                <p class="text-lg text-slate-300 mb-8 text-center">
+                    Ať už máš dotaz ohledně mých projektů, návrh na spolupráci, nebo jen chceš pozdravit, neváhej se ozvat!
+                </p>
+
+                <div class="space-y-6">
+                    <!-- E-mail -->
+                    <div class="flex items-center space-x-4 p-4 bg-slate-800 rounded-lg">
+                        <span class="text-accent">✉️</span>
+                        <div>
+                            <p class="text-sm text-slate-400">E-mail</p>
+                            <a href="mailto:tvuj.email@example.com" class="text-white hover:text-accent transition duration-300">tvuj.email@example.com</a>
+                        </div>
+                    </div>
+                    
+                    <!-- LinkedIn -->
+                    <div class="flex items-center space-x-4 p-4 bg-slate-800 rounded-lg">
+                        <span class="text-accent">🔗</span>
+                        <div>
+                            <p class="text-sm text-slate-400">LinkedIn</p>
+                            <a href="https://linkedin.com/in/tvojejmeno" target="_blank" class="text-white hover:text-accent transition duration-300">/in/tvojejmeno</a>
+                        </div>
+                    </div>
+                    
+                    <!-- GitHub -->
+                    <div class="flex items-center space-x-4 p-4 bg-slate-800 rounded-lg">
+                        <span class="text-accent">🐙</span>
+                        <div>
+                            <p class="text-sm text-slate-400">GitHub</p>
+                            <a href="https://github.com/tvujprofil" target="_blank" class="text-white hover:text-accent transition duration-300">/tvujprofil</a>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="mailto:tvuj.email@example.com" class="btn-primary block mt-8 w-full text-center py-3 rounded-full font-semibold">
+                    Poslat Zprávu
+                </a>
+            </div>
+        </section>
         
-        <!-- Podpůrný text -->
-        <p class="text-lg text-gray-400 mb-8 text-center">
-            <!-- Světle šedý text na tmavém pozadí -->
-            Tento moderní design je plně responzivní a využívá principy minimalistického webového rozhraní pro lepší čitelnost.
-        </p>
-        
-        <!-- Sekce obsahu -->
-        <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 mb-8">
-            <!-- Kontrastní pozadí pro sekci obsahu -->
-            <h2 class="text-xl font-semibold text-white mb-3">Základní Informace</h2>
-            <p class="text-gray-300 leading-relaxed">
-                Toto je odstavec textu s vylepšenou typografií a dostatečným mezery pro pohodlné čtení. Ukazuje, jak se zobrazuje základní obsah na moderním webu.
-            </p>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-card border-t border-slate-700/50 mt-16 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-slate-400">
+            <p>&copy; <span id="year">2024</span> Tvé Jméno. Všechna práva vyhrazena.</p>
+            <p class="text-sm mt-2">Design inspirován <span class="text-accent">AI</span> a kódován s 💚</p>
         </div>
-
-        <!-- Tlačítko/Odkaz - zůstává červené, na tmavém pozadí skvěle vynikne -->
-        <a href="https://www.google.com" target="_blank" 
-            class="block w-full text-center bg-red-600 text-white py-3 px-6 rounded-xl font-bold text-lg shadow-md hover:bg-red-700 hover:shadow-lg transition duration-300 transform hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-red-500 focus:ring-opacity-50">
-            Přejít na Google &rarr;
-        </a>
-
-    </div>
-
-    <!-- Pata (Footer) pro minimalistický dojem -->
-    <footer class="absolute bottom-0 w-full text-center p-4 text-gray-600 text-sm">
-        <!-- Tmavší text, aby splynul s tmavým pozadím -->
-        &copy; 2025 Moderní Web Design. Všechna práva vyhrazena.
     </footer>
 
+    <script>
+        // Funkce pro aktualizaci roku ve footeru
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Jednoduchá skripta pro scroll animaci (pro plynulý přechod)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    // Posuneme o 80px nahoru, aby navigace nezakryla sekci
+                    const offset = 80; 
+                    const bodyRect = document.body.getBoundingClientRect().top;
+                    const elementRect = targetElement.getBoundingClientRect().top;
+                    const elementPosition = elementRect - bodyRect;
+                    const offsetPosition = elementPosition - offset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Pomalejší animace pro AI vizualizaci
+        const style = document.createElement('style');
+        style.textContent = `
+            .animate-spin-slow {
+                animation: spin 8s linear infinite;
+            }
+            @keyframes spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
 </body>
 </html>
