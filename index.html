@@ -407,20 +407,48 @@
             submitBtn.disabled = true;
             submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
 
-            // Simulace odeslání
-            setTimeout(() => {
-                btnText.innerText = 'Odesláno úspěšně!';
-                btnIcon.style.display = 'none';
-                form.reset();
+            // Příprava dat
+            const data = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                message: document.getElementById('message').value,
+                source: "web"
+            };
 
-                // Reset tlačítka po chvíli
+            // Odeslání POST requestu na webhook
+            fetch('https://cgfi-n8n.app.n8n.cloud/webhook-test/8233bb67-4c07-4b39-a2cf-6375ef441ec9', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Úspěch
+                    btnText.innerText = 'Odesláno úspěšně!';
+                    btnIcon.style.display = 'none';
+                    form.reset();
+                } else {
+                    // Chyba serveru
+                    btnText.innerText = 'Chyba odeslání';
+                    console.error('Chyba při odesílání:', response.statusText);
+                }
+            })
+            .catch(error => {
+                // Chyba sítě
+                btnText.innerText = 'Chyba připojení';
+                console.error('Chyba sítě:', error);
+            })
+            .finally(() => {
+                // Reset tlačítka po 3 sekundách
                 setTimeout(() => {
                     btnText.innerText = originalText;
                     btnIcon.style.display = 'inline-block';
                     submitBtn.disabled = false;
                     submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
                 }, 3000);
-            }, 1500);
+            });
         });
     </script>
 </body>
