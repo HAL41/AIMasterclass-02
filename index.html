@@ -1,357 +1,427 @@
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="cs" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Developer Portfolio | Tvé Jméno</title>
-    <!-- Tailwind CSS CDN -->
+    <title>AI Developer Portfolio</title>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Používáme font Inter pro moderní vzhled -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    
+    <!-- Konfigurace barev pro Tailwind (aby odpovídaly React verzi) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gray: {
+                            900: '#111827',
+                            800: '#1f2937',
+                            700: '#374151',
+                        },
+                        teal: {
+                            300: '#5eead4',
+                            400: '#2dd4bf',
+                            500: '#14b8a6',
+                            900: '#134e4a',
+                        }
+                    },
+                    animation: {
+                        'bounce-slow': 'bounce 3s infinite',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
     <style>
-        :root {
-            /* Definice tyrkysové a tmavé barvy jako CSS proměnné */
-            --primary-color: #22d3ee; /* cyan-400 */
-            --secondary-color: #06b6d4; /* cyan-600 */
-            --background-color: #0f172a; /* slate-900 */
-            --card-color: #1e293b; /* slate-800 */
-        }
+        /* Vlastní styly pro scrollbar a detaily */
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--background-color);
-            color: #f1f5f9; /* slate-100 */
+            background-color: #111827;
+            color: #f3f4f6;
         }
-        .text-accent {
-            color: var(--primary-color);
+        ::-webkit-scrollbar {
+            width: 10px;
         }
-        .bg-card {
-            background-color: var(--card-color);
+        ::-webkit-scrollbar-track {
+            background: #1f2937;
         }
-        .btn-primary {
-            background-color: var(--primary-color);
-            color: var(--background-color);
-            transition: all 0.3s ease;
+        ::-webkit-scrollbar-thumb {
+            background: #2dd4bf;
+            border-radius: 5px;
         }
-        .btn-primary:hover {
-            background-color: var(--secondary-color);
-            box-shadow: 0 4px 15px -5px var(--secondary-color);
+        ::-webkit-scrollbar-thumb:hover {
+            background: #14b8a6;
         }
-        /* Subtilní animace pro Hero sekci */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in {
-            animation: fadeIn 1s ease-out forwards;
-        }
-        /* Stylování pro navigační linky */
-        .nav-link {
-            transition: color 0.2s, border-color 0.2s;
-            border-bottom: 2px solid transparent;
-        }
-        .nav-link:hover {
-            color: var(--primary-color);
-            border-color: var(--primary-color);
+        .glass {
+            background: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(12px);
         }
     </style>
 </head>
-<body>
+<body class="font-sans antialiased selection:bg-teal-500 selection:text-white overflow-x-hidden">
 
-    <!-- Navigace - Tmavá, fixní nahoře -->
-    <header class="sticky top-0 z-50 bg-card/95 backdrop-blur-sm shadow-lg border-b border-slate-700/50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <a href="#home" class="text-2xl font-extrabold tracking-tight">
-                <span class="text-accent">AI</span><span class="text-white">Dev</span>
-            </a>
-            <nav class="hidden md:flex space-x-8">
-                <a href="#about" class="nav-link text-white">O mně</a>
-                <a href="#skills" class="nav-link text-white">Dovednosti</a>
-                <a href="#projects" class="nav-link text-white">Projekty</a>
-                <a href="#contact" class="nav-link text-white">Kontakt</a>
-            </nav>
-            <!-- Tlačítko pro mobilní menu (prozatím nefunkční) -->
-            <button class="md:hidden text-white hover:text-accent focus:outline-none">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-            </button>
+    <!-- NAVIGACE -->
+    <nav class="fixed top-0 w-full z-50 glass border-b border-gray-800 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <span class="text-2xl font-bold tracking-tighter text-teal-400">AI.DEV</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#o-mne" class="text-gray-300 hover:text-teal-400 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300">O mně</a>
+                        <a href="#dovednosti" class="text-gray-300 hover:text-teal-400 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300">Dovednosti</a>
+                        <a href="#projekty" class="text-gray-300 hover:text-teal-400 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300">Projekty</a>
+                        <a href="#kontakt" class="text-gray-300 hover:text-teal-400 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300">Kontakt</a>
+                    </div>
+                </div>
+                <!-- Mobile menu button (simple implementation) -->
+                <div class="md:hidden">
+                    <button class="text-gray-300 hover:text-white p-2">
+                        <i data-lucide="menu"></i>
+                    </button>
+                </div>
+            </div>
         </div>
-    </header>
+    </nav>
 
-    <main class="max-w-7xl mx-auto">
+    <!-- HERO SEKCE S 3D POZADÍM -->
+    <header id="domu" class="relative h-screen flex items-center justify-center overflow-hidden">
+        <!-- Three.js Canvas Container -->
+        <div id="canvas-container" class="absolute inset-0 z-0"></div>
         
-        <!-- Sekce 1: HERO - Představení -->
-        <section id="home" class="py-24 md:py-32 px-4 sm:px-6 lg:px-8 flex items-center justify-center min-h-screen-minus-header">
-            <div class="flex flex-col md:flex-row items-center gap-12 w-full max-w-5xl">
-                <!-- Textová část -->
-                <div class="md:w-3/5 text-center md:text-left animate-fade-in" style="animation-delay: 0.1s;">
-                    <p class="text-xl md:text-2xl text-accent font-medium mb-3">Vítej! Jsem</p>
-                    <h1 class="text-5xl sm:text-7xl font-extrabold leading-tight tracking-tighter mb-4">
-                        <span class="text-white block">Tvé Jméno</span>
-                        <span class="text-accent block">AI Vývojář</span>
-                    </h1>
-                    <p class="text-lg md:text-xl text-slate-400 mb-8 max-w-xl mx-auto md:mx-0">
-                        Převedení složitých dat na inteligentní řešení pomocí strojového učení, hlubokého učení a nejnovějších modelů.
-                    </p>
-                    <div class="space-x-4">
-                        <a href="#projects" class="btn-primary inline-block py-3 px-8 rounded-full font-semibold shadow-lg hover:shadow-cyan-400/50">
-                            Prohlédnout Projekty
-                        </a>
-                        <a href="#contact" class="inline-block py-3 px-8 rounded-full font-semibold border border-accent text-accent transition duration-300 hover:bg-cyan-400/10">
-                            Kontakt
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- Avatar Placeholder/Vizualizace AI -->
-                <div class="md:w-2/5 flex justify-center animate-fade-in" style="animation-delay: 0.3s;">
-                    <!-- Placeholder pro cool vizualizaci AI nebo avatar -->
-                    <div class="w-64 h-64 sm:w-80 sm:h-80 bg-cyan-400/10 rounded-full flex items-center justify-center border-4 border-accent shadow-2xl shadow-cyan-400/20 relative">
-                        <!-- Jednoduchá vizualizace AI -->
-                        <div class="w-20 h-20 bg-accent rounded-full animate-pulse opacity-75"></div>
-                        <div class="absolute w-40 h-40 border-2 border-dashed border-cyan-500/50 rounded-full animate-spin-slow"></div>
-                    </div>
-                </div>
+        <!-- Hero Content -->
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto pointer-events-none">
+            <div class="inline-block px-3 py-1 mb-4 text-xs font-semibold tracking-wider text-teal-300 uppercase bg-teal-900/30 rounded-full border border-teal-500/30 backdrop-blur-sm pointer-events-auto">
+                Architekt umělé inteligence
             </div>
-        </section>
-
-        <!-- Sekce 2: O MNĚ -->
-        <section id="about" class="py-20 md:py-28 px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-white mb-4">O mně a mé vizi</h2>
-                <p class="text-xl text-slate-400">Pohled do mého profesionálního příběhu.</p>
-            </div>
+            <h1 class="text-5xl md:text-8xl font-bold tracking-tighter mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-500 drop-shadow-2xl">
+                BUDOUCNOST <br />
+                <span class="text-teal-400">JE TADY</span>
+            </h1>
+            <p class="mt-4 max-w-2xl mx-auto text-xl text-gray-400">
+                Tvořím inteligentní systémy, neuronové sítě a interaktivní 3D zážitky, 
+                které posouvají hranice možného.
+            </p>
             
-            <div class="max-w-4xl mx-auto bg-card p-8 md:p-12 rounded-2xl shadow-2xl shadow-slate-950">
-                <p class="text-slate-300 text-lg leading-relaxed mb-6">
-                    Jsem zapálený AI vývojář se zaměřením na přirozené zpracování jazyka (NLP) a počítačové vidění (Computer Vision). Mým cílem je budovat škálovatelné a etické systémy, které reálně řeší komplexní problémy.
-                </p>
-                <p class="text-slate-300 text-lg leading-relaxed">
-                    Mám <span class="text-accent font-semibold">X let</span> zkušeností s implementací řešení od výzkumné fáze až po produkční nasazení. Neustále sleduji nejnovější trendy v oblasti transformerů, generativních modelů a MLOps, abych zajistil, že moje práce je na špičkové úrovni.
-                </p>
-                <div class="mt-8 flex justify-center">
-                    <a href="tvuj_cv.pdf" target="_blank" class="text-accent border border-accent py-2 px-6 rounded-full hover:bg-cyan-400/10 transition duration-300">
-                        Stáhnout CV (PDF)
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Sekce 3: DOVEDNOSTI (Skills) -->
-        <section id="skills" class="py-20 md:py-28 px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-white mb-4">Klíčové Dovednosti</h2>
-                <p class="text-xl text-slate-400">Technologie a nástroje, se kterými pracuji.</p>
-            </div>
-
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
-                <!-- Kartička dovednosti -->
-                <div class="bg-card p-6 rounded-xl text-center border border-cyan-400/20 transition duration-300 hover:border-cyan-400 hover:scale-[1.03] shadow-lg">
-                    <span class="text-4xl text-accent block mb-3">🐍</span>
-                    <h3 class="text-xl font-semibold text-white">Python</h3>
-                    <p class="text-sm text-slate-400">Flask, FastAPI, OOP</p>
-                </div>
-                
-                <div class="bg-card p-6 rounded-xl text-center border border-cyan-400/20 transition duration-300 hover:border-cyan-400 hover:scale-[1.03] shadow-lg">
-                    <span class="text-4xl text-accent block mb-3">🧠</span>
-                    <h3 class="text-xl font-semibold text-white">Deep Learning</h3>
-                    <p class="text-sm text-slate-400">PyTorch, TensorFlow, Keras</p>
-                </div>
-
-                <div class="bg-card p-6 rounded-xl text-center border border-cyan-400/20 transition duration-300 hover:border-cyan-400 hover:scale-[1.03] shadow-lg">
-                    <span class="text-4xl text-accent block mb-3">💬</span>
-                    <h3 class="text-xl font-semibold text-white">NLP / LLMs</h3>
-                    <p class="text-sm text-slate-400">Transformers, RAG, SpaCy</p>
-                </div>
-
-                <div class="bg-card p-6 rounded-xl text-center border border-cyan-400/20 transition duration-300 hover:border-cyan-400 hover:scale-[1.03] shadow-lg">
-                    <span class="text-4xl text-accent block mb-3">👁️</span>
-                    <h3 class="text-xl font-semibold text-white">Computer Vision</h3>
-                    <p class="text-sm text-slate-400">OpenCV, YOLO, Segmentation</p>
-                </div>
-
-                <div class="bg-card p-6 rounded-xl text-center border border-cyan-400/20 transition duration-300 hover:border-cyan-400 hover:scale-[1.03] shadow-lg">
-                    <span class="text-4xl text-accent block mb-3">☁️</span>
-                    <h3 class="text-xl font-semibold text-white">Cloud / MLOps</h3>
-                    <p class="text-sm text-slate-400">AWS SageMaker, Azure ML, Docker</p>
-                </div>
-
-                <div class="bg-card p-6 rounded-xl text-center border border-cyan-400/20 transition duration-300 hover:border-cyan-400 hover:scale-[1.03] shadow-lg">
-                    <span class="text-4xl text-accent block mb-3">📊</span>
-                    <h3 class="text-xl font-semibold text-white">Data Science</h3>
-                    <p class="text-sm text-slate-400">Pandas, Scikit-learn, Vizualizace</p>
-                </div>
-
-                <div class="bg-card p-6 rounded-xl text-center border border-cyan-400/20 transition duration-300 hover:border-cyan-400 hover:scale-[1.03] shadow-lg">
-                    <span class="text-4xl text-accent block mb-3">🛠️</span>
-                    <h3 class="text-xl font-semibold text-white">Nástroje</h3>
-                    <p class="text-sm text-slate-400">Git, Kubernetes, VS Code</p>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- Sekce 4: PROJEKTY -->
-        <section id="projects" class="py-20 md:py-28 px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-white mb-4">Moje Nejlepší Projekty</h2>
-                <p class="text-xl text-slate-400">Kde teorie potkává praxi.</p>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
-                
-                <!-- Projekt 1: Prediktivní model -->
-                <div class="bg-card rounded-2xl p-6 md:p-8 shadow-2xl border-t-4 border-accent">
-                    <h3 class="text-3xl font-bold text-white mb-3">Systém pro Predikci Zákaznické Odpovědi</h3>
-                    <p class="text-sm text-accent font-semibold mb-4">#NLP #Klasifikace #Produkce</p>
-                    <p class="text-slate-300 mb-6">
-                        Vyvinut a nasazen transformerový model pro klasifikaci sentimentu a predikci pravděpodobnosti konverze z textových zákaznických dotazů. Model běží v Docker kontejneru na AWS EKS.
-                    </p>
-                    <div class="flex flex-wrap gap-3">
-                        <span class="text-xs font-medium bg-cyan-400/10 text-cyan-200 py-1 px-3 rounded-full">PyTorch</span>
-                        <span class="text-xs font-medium bg-cyan-400/10 text-cyan-200 py-1 px-3 rounded-full">HuggingFace</span>
-                        <span class="text-xs font-medium bg-cyan-400/10 text-cyan-200 py-1 px-3 rounded-full">MLOps</span>
-                    </div>
-                    <div class="mt-6 flex space-x-4">
-                        <a href="#" class="text-accent hover:underline font-medium">Kód (GitHub)</a>
-                        <a href="#" class="text-accent hover:underline font-medium">Demo</a>
-                    </div>
-                </div>
-
-                <!-- Projekt 2: Počítačové vidění -->
-                <div class="bg-card rounded-2xl p-6 md:p-8 shadow-2xl border-t-4 border-accent">
-                    <h3 class="text-3xl font-bold text-white mb-3">Detekce Defektů na Výrobní Lince</h3>
-                    <p class="text-sm text-accent font-semibold mb-4">#ComputerVision #EdgeAI #YOLOv8</p>
-                    <p class="text-slate-300 mb-6">
-                        Trénink a optimalizace YOLO modelu pro detekci a lokalizaci drobných defektů na obrázcích z výrobního procesu v reálném čase. Nasazeno na lokální Edge zařízení pro nízkou latenci.
-                    </p>
-                    <div class="flex flex-wrap gap-3">
-                        <span class="text-xs font-medium bg-cyan-400/10 text-cyan-200 py-1 px-3 rounded-full">TensorFlow Lite</span>
-                        <span class="text-xs font-medium bg-cyan-400/10 text-cyan-200 py-1 px-3 rounded-full">OpenCV</span>
-                        <span class="text-xs font-medium bg-cyan-400/10 text-cyan-200 py-1 px-3 rounded-full">Jupyter</span>
-                    </div>
-                    <div class="mt-6 flex space-x-4">
-                        <a href="#" class="text-accent hover:underline font-medium">Kód (GitHub)</a>
-                        <a href="#" class="text-accent hover:underline font-medium">Videa</a>
-                    </div>
-                </div>
-
-                <!-- Projekt 3: Generativní AI -->
-                <div class="bg-card rounded-2xl p-6 md:p-8 shadow-2xl border-t-4 border-accent">
-                    <h3 class="text-3xl font-bold text-white mb-3">RAG Systém pro Interní Dokumentaci</h3>
-                    <p class="text-sm text-accent font-semibold mb-4">#GenerativeAI #RAG #Vektory</p>
-                    <p class="text-slate-300 mb-6">
-                        Vytvoření Retrieval-Augmented Generation (RAG) aplikace pro zodpovídání dotazů z rozsáhlé korporátní dokumentace. Používá Vector Database (např. Pinecone/Weaviate) a LangChain.
-                    </p>
-                    <div class="flex flex-wrap gap-3">
-                        <span class="text-xs font-medium bg-cyan-400/10 text-cyan-200 py-1 px-3 rounded-full">LangChain</span>
-                        <span class="text-xs font-medium bg-cyan-400/10 text-cyan-200 py-1 px-3 rounded-full">Pinecone</span>
-                        <span class="text-xs font-medium bg-cyan-400/10 text-cyan-200 py-1 px-3 rounded-full">LLama/OpenAI</span>
-                    </div>
-                    <div class="mt-6 flex space-x-4">
-                        <a href="#" class="text-accent hover:underline font-medium">Kód (GitHub)</a>
-                        <a href="#" class="text-accent hover:underline font-medium">Dokumentace</a>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- Sekce 5: KONTAKT -->
-        <section id="contact" class="py-20 md:py-28 px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-white mb-4">Pojďme Budovat AI Spolu</h2>
-                <p class="text-xl text-slate-400">Jsem otevřen novým výzvám a spolupráci.</p>
-            </div>
-
-            <div class="max-w-xl mx-auto bg-card p-8 rounded-2xl shadow-2xl border border-cyan-400/30">
-                <p class="text-lg text-slate-300 mb-8 text-center">
-                    Ať už máš dotaz ohledně mých projektů, návrh na spolupráci, nebo jen chceš pozdravit, neváhej se ozvat!
-                </p>
-
-                <div class="space-y-6">
-                    <!-- E-mail -->
-                    <div class="flex items-center space-x-4 p-4 bg-slate-800 rounded-lg">
-                        <span class="text-accent">✉️</span>
-                        <div>
-                            <p class="text-sm text-slate-400">E-mail</p>
-                            <a href="mailto:tvuj.email@example.com" class="text-white hover:text-accent transition duration-300">tvuj.email@example.com</a>
-                        </div>
-                    </div>
-                    
-                    <!-- LinkedIn -->
-                    <div class="flex items-center space-x-4 p-4 bg-slate-800 rounded-lg">
-                        <span class="text-accent">🔗</span>
-                        <div>
-                            <p class="text-sm text-slate-400">LinkedIn</p>
-                            <a href="https://linkedin.com/in/tvojejmeno" target="_blank" class="text-white hover:text-accent transition duration-300">/in/tvojejmeno</a>
-                        </div>
-                    </div>
-                    
-                    <!-- GitHub -->
-                    <div class="flex items-center space-x-4 p-4 bg-slate-800 rounded-lg">
-                        <span class="text-accent">🐙</span>
-                        <div>
-                            <p class="text-sm text-slate-400">GitHub</p>
-                            <a href="https://github.com/tvujprofil" target="_blank" class="text-white hover:text-accent transition duration-300">/tvujprofil</a>
-                        </div>
-                    </div>
-                </div>
-
-                <a href="mailto:tvuj.email@example.com" class="btn-primary block mt-8 w-full text-center py-3 rounded-full font-semibold">
-                    Poslat Zprávu
+            <div class="mt-10 flex justify-center gap-4 pointer-events-auto">
+                <a href="#projekty" class="px-8 py-3 rounded-md bg-teal-500 text-gray-900 font-bold hover:bg-teal-400 transition-all duration-300 shadow-[0_0_20px_rgba(45,212,191,0.3)] hover:shadow-[0_0_30px_rgba(45,212,191,0.6)] transform hover:-translate-y-1">
+                    Moje Práce
+                </a>
+                <a href="#kontakt" class="px-8 py-3 rounded-md border border-gray-600 bg-gray-800/50 hover:bg-gray-700/50 hover:border-teal-400 text-white transition-all duration-300 backdrop-blur-sm">
+                    Kontaktovat
                 </a>
             </div>
-        </section>
-        
-    </main>
+        </div>
 
-    <!-- Footer -->
-    <footer class="bg-card border-t border-slate-700/50 mt-16 py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-slate-400">
-            <p>&copy; <span id="year">2024</span> Tvé Jméno. Všechna práva vyhrazena.</p>
-            <p class="text-sm mt-2">Design inspirován <span class="text-accent">AI</span> a kódován s 💚</p>
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce-slow cursor-pointer z-10 pointer-events-auto">
+            <a href="#o-mne"><i data-lucide="chevron-down" class="w-8 h-8 text-teal-400 opacity-75"></i></a>
+        </div>
+        
+        <!-- Gradient Overlay -->
+        <div class="absolute bottom-0 w-full h-32 bg-gradient-to-t from-gray-900 to-transparent pointer-events-none z-0"></div>
+    </header>
+
+    <!-- O MNĚ & DOVEDNOSTI -->
+    <section id="o-mne" class="py-20 bg-gray-900 relative border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                
+                <!-- Textová část -->
+                <div id="dovednosti">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6 text-white">
+                        Analýza dat & <span class="text-teal-400">Strojové učení</span>
+                    </h2>
+                    <p class="text-gray-400 mb-6 text-lg leading-relaxed">
+                        Jsem vývojář specializující se na AI a LLM (Large Language Models). 
+                        Můj kód není jen o syntaxi, ale o řešení komplexních problémů pomocí algoritmů. 
+                        Spojuji svět datové vědy s intuitivním frontendem.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <!-- Skill 1 -->
+                        <div class="flex items-center p-4 bg-gray-800/50 rounded-lg border border-gray-700 hover:border-teal-500/50 transition-colors group">
+                            <div class="text-teal-400 mr-3 group-hover:scale-110 transition-transform"><i data-lucide="brain"></i></div>
+                            <span class="font-medium text-gray-200">Deep Learning</span>
+                        </div>
+                        <!-- Skill 2 -->
+                        <div class="flex items-center p-4 bg-gray-800/50 rounded-lg border border-gray-700 hover:border-teal-500/50 transition-colors group">
+                            <div class="text-teal-400 mr-3 group-hover:scale-110 transition-transform"><i data-lucide="cpu"></i></div>
+                            <span class="font-medium text-gray-200">NLP & LLMs</span>
+                        </div>
+                        <!-- Skill 3 -->
+                        <div class="flex items-center p-4 bg-gray-800/50 rounded-lg border border-gray-700 hover:border-teal-500/50 transition-colors group">
+                            <div class="text-teal-400 mr-3 group-hover:scale-110 transition-transform"><i data-lucide="database"></i></div>
+                            <span class="font-medium text-gray-200">Big Data</span>
+                        </div>
+                        <!-- Skill 4 -->
+                        <div class="flex items-center p-4 bg-gray-800/50 rounded-lg border border-gray-700 hover:border-teal-500/50 transition-colors group">
+                            <div class="text-teal-400 mr-3 group-hover:scale-110 transition-transform"><i data-lucide="code"></i></div>
+                            <span class="font-medium text-gray-200">Python & JS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dekorativní Code Block -->
+                <div class="bg-gray-800 rounded-xl p-6 border border-gray-700 shadow-2xl relative overflow-hidden group hover:border-teal-500/30 transition-colors">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-teal-500 to-purple-600"></div>
+                    <div class="flex gap-2 mb-4">
+                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                    </div>
+                    <pre class="font-mono text-sm text-gray-300 overflow-x-auto"><code>
+<span class="text-purple-400">class</span> <span class="text-yellow-300">NeuralNet</span>:
+  <span class="text-purple-400">def</span> <span class="text-blue-400">__init__</span>(self):
+    self.layers = [
+      Dense(<span class="text-teal-400">128</span>, activation=<span class="text-green-400">'relu'</span>),
+      Dropout(<span class="text-teal-400">0.2</span>),
+      Dense(<span class="text-teal-400">10</span>, activation=<span class="text-green-400">'softmax'</span>)
+    ]
+
+  <span class="text-purple-400">def</span> <span class="text-blue-400">predict</span>(self, data):
+    <span class="text-gray-500"># Optimalizace budoucnosti</span>
+    <span class="text-purple-400">return</span> self.model(data)
+                    </code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROJEKTY -->
+    <section id="projekty" class="py-20 bg-gray-900 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold mb-4 text-white">Vybrané Projekty</h2>
+                <div class="w-24 h-1 bg-teal-500 mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Projekt 1 -->
+                <div class="group relative bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:border-teal-500/50 transition-all duration-300 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-teal-500/10">
+                    <div class="h-2 w-full bg-gradient-to-r from-blue-500 to-teal-500"></div>
+                    <div class="p-8">
+                        <h3 class="text-xl font-bold text-white mb-3 group-hover:text-teal-400 transition-colors">AI Vision System</h3>
+                        <p class="text-gray-400 mb-6 text-sm leading-relaxed">Systém pro detekci objektů v reálném čase využívající YOLOv8 a OpenCV. Integrováno do bezpečnostních kamer.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 text-xs bg-gray-900 text-teal-300 rounded-full border border-gray-700">Python</span>
+                            <span class="px-3 py-1 text-xs bg-gray-900 text-teal-300 rounded-full border border-gray-700">PyTorch</span>
+                            <span class="px-3 py-1 text-xs bg-gray-900 text-teal-300 rounded-full border border-gray-700">OpenCV</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projekt 2 -->
+                <div class="group relative bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:border-teal-500/50 transition-all duration-300 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-teal-500/10">
+                    <div class="h-2 w-full bg-gradient-to-r from-teal-500 to-green-500"></div>
+                    <div class="p-8">
+                        <h3 class="text-xl font-bold text-white mb-3 group-hover:text-teal-400 transition-colors">Chatbot pro Finance</h3>
+                        <p class="text-gray-400 mb-6 text-sm leading-relaxed">LLM agent postavený na GPT-4, který analyzuje finanční zprávy a poskytuje investiční doporučení.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 text-xs bg-gray-900 text-teal-300 rounded-full border border-gray-700">LangChain</span>
+                            <span class="px-3 py-1 text-xs bg-gray-900 text-teal-300 rounded-full border border-gray-700">React</span>
+                            <span class="px-3 py-1 text-xs bg-gray-900 text-teal-300 rounded-full border border-gray-700">Node.js</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projekt 3 -->
+                <div class="group relative bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:border-teal-500/50 transition-all duration-300 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-teal-500/10">
+                    <div class="h-2 w-full bg-gradient-to-r from-purple-500 to-pink-500"></div>
+                    <div class="p-8">
+                        <h3 class="text-xl font-bold text-white mb-3 group-hover:text-teal-400 transition-colors">Prediktivní Údržba</h3>
+                        <p class="text-gray-400 mb-6 text-sm leading-relaxed">Machine Learning model předpovídající poruchy průmyslových strojů 48 hodin předem.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 text-xs bg-gray-900 text-teal-300 rounded-full border border-gray-700">Scikit-learn</span>
+                            <span class="px-3 py-1 text-xs bg-gray-900 text-teal-300 rounded-full border border-gray-700">Pandas</span>
+                            <span class="px-3 py-1 text-xs bg-gray-900 text-teal-300 rounded-full border border-gray-700">AWS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KONTAKTNÍ FORMULÁŘ -->
+    <section id="kontakt" class="py-20 bg-gradient-to-b from-gray-900 to-gray-800 relative">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass p-8 md:p-12 rounded-2xl border border-gray-700 shadow-2xl">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl font-bold text-white mb-2">Kontaktujte Mě</h2>
+                    <p class="text-gray-400">Máte nápad na projekt? Pojďme ho realizovat.</p>
+                </div>
+
+                <form id="contact-form" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label htmlFor="name" class="block text-sm font-medium text-teal-400 mb-2">Jméno</label>
+                            <input type="text" id="name" required class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all" placeholder="Jan Novák">
+                        </div>
+                        <div>
+                            <label htmlFor="email" class="block text-sm font-medium text-teal-400 mb-2">Email</label>
+                            <input type="email" id="email" required class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all" placeholder="jan@example.com">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label htmlFor="message" class="block text-sm font-medium text-teal-400 mb-2">Zpráva</label>
+                        <textarea id="message" required rows="4" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all" placeholder="Popište svůj projekt..."></textarea>
+                    </div>
+
+                    <button type="submit" id="submit-btn" class="w-full bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-400 hover:to-teal-500 text-gray-900 font-bold py-4 rounded-lg shadow-lg transform hover:scale-[1.02] transition-all duration-200 flex items-center justify-center space-x-2">
+                        <span id="btn-text">Odeslat Zprávu</span>
+                        <i data-lucide="send" id="btn-icon" class="w-4 h-4 ml-2"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-900 py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-gray-400">
+            <div class="mb-4 md:mb-0">
+                <p>&copy; 2024 AI Developer. Všechna práva vyhrazena.</p>
+            </div>
+            <div class="flex space-x-6">
+                <a href="#" class="hover:text-teal-400 transition-colors"><i data-lucide="github"></i></a>
+                <a href="#" class="hover:text-teal-400 transition-colors"><i data-lucide="linkedin"></i></a>
+                <a href="#" class="hover:text-teal-400 transition-colors"><i data-lucide="twitter"></i></a>
+            </div>
         </div>
     </footer>
 
+    <!-- JAVASCRIPT LOGIC -->
     <script>
-        // Funkce pro aktualizaci roku ve footeru
-        document.getElementById('year').textContent = new Date().getFullYear();
+        // 1. Inicializace ikon
+        lucide.createIcons();
 
-        // Jednoduchá skripta pro scroll animaci (pro plynulý přechod)
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
+        // 2. Three.js Scéna (Icosahedron)
+        window.addEventListener('load', () => {
+            const container = document.getElementById('canvas-container');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
 
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                
-                if (targetElement) {
-                    // Posuneme o 80px nahoru, aby navigace nezakryla sekci
-                    const offset = 80; 
-                    const bodyRect = document.body.getBoundingClientRect().top;
-                    const elementRect = targetElement.getBoundingClientRect().top;
-                    const elementPosition = elementRect - bodyRect;
-                    const offsetPosition = elementPosition - offset;
+            // Scene
+            const scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x111827, 0.03);
 
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
-                }
+            // Camera
+            const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+            camera.position.z = 4;
+
+            // Renderer
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(width, height);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            container.appendChild(renderer.domElement);
+
+            // Objekt - Icosahedron
+            const geometry = new THREE.IcosahedronGeometry(1.8, 0);
+            const material = new THREE.MeshPhongMaterial({
+                color: 0x1f2937,
+                shininess: 10,
+                flatShading: true,
+            });
+
+            const icosahedron = new THREE.Mesh(geometry, material);
+            scene.add(icosahedron);
+
+            // Wireframe
+            const wireGeo = new THREE.WireframeGeometry(geometry);
+            const wireMat = new THREE.LineBasicMaterial({ color: 0x2dd4bf, linewidth: 2 });
+            const wireframe = new THREE.LineSegments(wireGeo, wireMat);
+            icosahedron.add(wireframe);
+
+            // Světla
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+            scene.add(ambientLight);
+
+            const pointLight1 = new THREE.PointLight(0x2dd4bf, 1, 20);
+            pointLight1.position.set(5, 5, 5);
+            scene.add(pointLight1);
+
+            const pointLight2 = new THREE.PointLight(0xec4899, 1, 20);
+            pointLight2.position.set(-5, -5, 5);
+            scene.add(pointLight2);
+
+            // Interaktivita myši
+            let mouseX = 0;
+            let mouseY = 0;
+
+            document.addEventListener('mousemove', (event) => {
+                mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+                mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+            });
+
+            // Animace
+            const animate = () => {
+                requestAnimationFrame(animate);
+
+                // Základní rotace
+                icosahedron.rotation.x += 0.002;
+                icosahedron.rotation.y += 0.002;
+
+                // Rotace podle myši
+                icosahedron.rotation.x += mouseY * 0.03;
+                icosahedron.rotation.y += mouseX * 0.03;
+
+                // Pulzování
+                const time = Date.now() * 0.001;
+                const scale = 1 + Math.sin(time) * 0.03;
+                icosahedron.scale.set(scale, scale, scale);
+
+                renderer.render(scene, camera);
+            };
+
+            animate();
+
+            // Resize
+            window.addEventListener('resize', () => {
+                const newWidth = container.clientWidth;
+                const newHeight = container.clientHeight;
+                camera.aspect = newWidth / newHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(newWidth, newHeight);
             });
         });
 
-        // Pomalejší animace pro AI vizualizaci
-        const style = document.createElement('style');
-        style.textContent = `
-            .animate-spin-slow {
-                animation: spin 8s linear infinite;
-            }
-            @keyframes spin {
-                from { transform: rotate(0deg); }
-                to { transform: rotate(360deg); }
-            }
-        `;
-        document.head.appendChild(style);
+        // 3. Logika Kontaktního formuláře
+        const form = document.getElementById('contact-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const btnText = document.getElementById('btn-text');
+        const btnIcon = document.getElementById('btn-icon');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Loading stav
+            const originalText = btnText.innerText;
+            btnText.innerText = 'Odesílání...';
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+
+            // Simulace odeslání
+            setTimeout(() => {
+                btnText.innerText = 'Odesláno úspěšně!';
+                btnIcon.style.display = 'none';
+                form.reset();
+
+                // Reset tlačítka po chvíli
+                setTimeout(() => {
+                    btnText.innerText = originalText;
+                    btnIcon.style.display = 'inline-block';
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+                }, 3000);
+            }, 1500);
+        });
     </script>
 </body>
 </html>
